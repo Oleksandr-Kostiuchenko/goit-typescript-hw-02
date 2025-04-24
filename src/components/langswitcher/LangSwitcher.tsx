@@ -1,13 +1,29 @@
+//* Libraries
 import style from "./LangSwitcher.module.css";
 import { IoClose } from "react-icons/io5";
 
+//* Ctx & TS
 import { useLang } from "../../hook/useLang";
+import { LangContextType, LangValue } from "../../context/lang";
 
-const LangSwitcher = ({ setLangModalIsOpen }) => {
-  const langCtx = useLang();
+import { ChangeEvent } from "react";
+type Props = {
+  handleCloseLangModal: () => void;
+};
 
-  const handleChange = (event) => {
-    langCtx.changeLang(event.target.value);
+const LangSwitcher: React.FC<Props> = ({ handleCloseLangModal }) => {
+  const langCtx: LangContextType = useLang();
+
+  const handleChange = (event: ChangeEvent<HTMLSelectElement>) => {
+    const select = event.target as HTMLSelectElement;
+
+    if (select.value === "uk" || select.value === "en") {
+      const selectValue: LangValue = select.value;
+
+      if (langCtx.changeFunc !== null) {
+        langCtx.changeFunc(selectValue);
+      }
+    }
   };
 
   return (
@@ -16,7 +32,7 @@ const LangSwitcher = ({ setLangModalIsOpen }) => {
         <button
           className={style.closeModalBtn}
           onClick={() => {
-            setLangModalIsOpen(false);
+            handleCloseLangModal();
           }}
         >
           <IoClose />

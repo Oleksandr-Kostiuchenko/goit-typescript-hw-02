@@ -1,17 +1,26 @@
+//* Libraries
 import style from "./SearchBar.module.css";
 import toast, { Toaster } from "react-hot-toast";
 import { motion } from "framer-motion";
 import { FiSearch } from "react-icons/fi";
 import { useLang } from "../../hook/useLang";
+import { FormEvent } from "react";
 
-const SearchBar = ({ onSearch }) => {
+//* TS
+type Props = {
+  onSearch: (topic: string) => void;
+};
+
+const SearchBar: React.FC<Props> = ({ onSearch }) => {
   const langCtx = useLang();
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
 
-    const form = event.target;
-    const input = form.elements.galleryUserQuery;
+    const form = event.target as HTMLFormElement;
+    const input = form.elements.namedItem(
+      "galleryUserQuery"
+    ) as HTMLInputElement;
 
     if (input.value.trim() === "") {
       toast("Please enter something!", {
@@ -40,7 +49,7 @@ const SearchBar = ({ onSearch }) => {
               name="galleryUserQuery"
               type="text"
               autoComplete="off"
-              maxLength="30"
+              maxLength={30}
               placeholder="Images..."
             />
             <FiSearch className={style.searchIcon} />
@@ -64,7 +73,7 @@ const SearchBar = ({ onSearch }) => {
               name="galleryUserQuery"
               type="text"
               autoComplete="off"
-              maxLength="30"
+              maxLength={30}
               placeholder="Зображення..."
             />
             <FiSearch className={style.searchIcon} />

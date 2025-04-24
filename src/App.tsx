@@ -1,73 +1,76 @@
-//* Import modules
+//* React
 import { useState, useEffect } from "react";
 import "./App.css";
 
-//* Import components
+//* Components
 import SearchBar from "./components/searchbar/SearchBar";
 import ImageGallery from "./components/imagegallery/ImageGallery";
 import LoadMoreBtn from "./components/loadmorebtn/LoadMoreBtn";
 import Loader from "./components/loader/Loader";
 import ErrorMessage from "./components/errormessage/ErrorMessage";
+import LangSwitcher from "./components/langswitcher/LangSwitcher";
+import { IoMenuSharp } from "react-icons/io5";
 
 import ImageModal from "./components/imagemodal/ImageModal";
 import Modal from "react-modal";
 Modal.setAppElement("#root");
 
-import LangSwitcher from "./components/langswitcher/LangSwitcher";
-
-import { IoMenuSharp } from "react-icons/io5";
-
 //* Import fetch function
 import { FetchImages } from "./FetchImages";
 
-function App() {
-  const [galleryData, setGalleryData] = useState([]);
-  const [userQuery, setUserQuery] = useState("");
-  const [page, setPage] = useState(1);
+//* TS
+import { ImageDataType } from "./App.types";
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(false);
+const App: React.FC = () => {
+  const [galleryData, setGalleryData] = useState<ImageDataType[]>([]);
+  const [userQuery, setUserQuery] = useState<string>("");
+  const [page, setPage] = useState<number>(1);
 
-  const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [modalImage, setModalImage] = useState();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [error, setError] = useState<boolean>(false);
 
-  const [langModalIsOpen, setLangModalIsOpen] = useState(false);
+  const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
+  const [modalImage, setModalImage] = useState<ImageDataType | null>(null);
 
-  const openModal = (imageData) => {
+  const [langModalIsOpen, setLangModalIsOpen] = useState<boolean>(false);
+
+  const handleCloseLangModal = (): void => {
+    setLangModalIsOpen(false);
+  };
+
+  const openModal = (imageData: ImageDataType): void => {
     setModalImage(imageData);
     setModalIsOpen(true);
   };
 
-  const closeModal = () => {
-    setModalImage();
+  const closeModal = (): void => {
+    setModalImage(null);
     setModalIsOpen(false);
   };
 
-  const handleSearch = (topic) => {
+  const handleSearch = (topic: string): void => {
     setGalleryData([]);
     setUserQuery(topic);
     setPage(1);
   };
 
-  const handleLoadMore = () => {
+  const handleLoadMore = (): void => {
     setPage(page + 1);
   };
 
-  useEffect(() => {
+  useEffect((): void => {
     if (userQuery === "") {
       return;
     }
 
-    const getGalleryData = async () => {
+    const getGalleryData = async (): Promise<void> => {
       try {
         setIsLoading(true);
         setError(false);
 
-        const fetchGalleryData = await FetchImages(userQuery, page);
-        setGalleryData((prevPhotos) => [
-          ...prevPhotos,
-          ...fetchGalleryData.results,
-        ]);
+        const fetchGalleryData = await FetchImages({ topic: userQuery, page });
+        const results: ImageDataType[] = fetchGalleryData.results;
+        setGalleryData((prevPhotos) => [...prevPhotos, ...results]);
       } catch (error) {
         setError(true);
       } finally {
@@ -84,7 +87,7 @@ function App() {
         <SearchBar onSearch={handleSearch} />
         <button
           className="menu-btn"
-          onClick={() => {
+          onClick={(): void => {
             setLangModalIsOpen(true);
           }}
         >
@@ -93,7 +96,7 @@ function App() {
       </header>
 
       {langModalIsOpen && (
-        <LangSwitcher setLangModalIsOpen={setLangModalIsOpen} />
+        <LangSwitcher handleCloseLangModal={handleCloseLangModal} />
       )}
 
       {galleryData.length > 0 && (
@@ -118,6 +121,6 @@ function App() {
       </Modal>
     </>
   );
-}
+};
 
 export default App;

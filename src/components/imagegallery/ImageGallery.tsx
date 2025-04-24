@@ -1,9 +1,17 @@
+//* Libraries & Components
 import style from "./ImageGallery.module.css";
+import { motion, AnimatePresence } from "framer-motion";
 import ImageCard from "../imagecard/ImageCard";
 
-import { motion, AnimatePresence } from "framer-motion";
+//* TS
+import { ImageDataType } from "../../App.types";
 
-const ImageGallery = ({ galleryArr, openModal }) => {
+type Props = {
+  galleryArr: ImageDataType[];
+  openModal: (imageData: ImageDataType) => void;
+};
+
+const ImageGallery: React.FC<Props> = ({ galleryArr, openModal }) => {
   return (
     <ul className={style.imageList}>
       <AnimatePresence mode="popLayout">
@@ -11,7 +19,7 @@ const ImageGallery = ({ galleryArr, openModal }) => {
           <motion.li
             className={style.imageItem}
             key={element.id}
-            onClick={() => openModal(element)}
+            onClick={(): void => openModal(element)}
             layout
             exit={{ opacity: 0, y: -50 }}
             transition={{ duration: 0.4 }}

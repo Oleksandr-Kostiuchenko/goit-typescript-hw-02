@@ -1,8 +1,14 @@
+//* Libraries
 import style from "./ImageCard.module.css";
-
 import { motion } from "framer-motion";
 
-const ImageCard = ({ data }) => {
+//* TS
+import { ImageDataType } from "../../App.types";
+type Props = {
+  data: ImageDataType;
+};
+
+const ImageCard: React.FC<Props> = ({ data }) => {
   return (
     <motion.div
       className={style.imgWrapper}
