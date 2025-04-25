@@ -12,14 +12,14 @@ type Props = {
 };
 
 const LoadMoreBtn: React.FC<Props> = ({ handleLoadMore }) => {
-  const [isHover, setIsHover] = useState(false);
+  const [isHover, setIsHover] = useState<boolean>(false);
   const btnRef = useRef<HTMLButtonElement>(null);
 
-  const handleHover = () => {
+  const handleHover = (): void => {
     setIsHover(true);
   };
 
-  const handleDisHover = () => {
+  const handleDisHover = (): void => {
     setIsHover(false);
   };
 

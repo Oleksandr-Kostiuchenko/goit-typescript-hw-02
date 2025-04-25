@@ -61,13 +61,14 @@
     border 250ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.title {
-  margin-bottom: 30px;
+.closeIcon {
+  width: 25px;
+  height: 25px;
+  flex-shrink: 0;
 }
 
-.selectWrapper {
-  border-bottom: 1px solid black;
-  padding-bottom: 10px;
+.title {
+  margin-bottom: 30px;
 }
 
 .langSelector {
@@ -80,4 +81,33 @@
 
   margin-left: auto;
   margin-right: auto;
+
+  border: 1px solid black;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.navWrapper {
+  margin-bottom: 30px;
+}
+
+.navList {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+}
+
+.navLink {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+
+  transition: color 250ms linear, border 250ms linear;
+}
+
+.activeLink {
+  color: #1f2381;
+  border-bottom: 2px solid #1f2381;
 }

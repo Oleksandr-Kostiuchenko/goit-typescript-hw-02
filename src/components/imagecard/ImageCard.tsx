@@ -1,6 +1,7 @@
 //* Libraries
 import style from "./ImageCard.module.css";
 import { motion } from "framer-motion";
+import { FaRegHeart } from "react-icons/fa";
 
 //* TS
 import { ImageDataType } from "../../App.types";

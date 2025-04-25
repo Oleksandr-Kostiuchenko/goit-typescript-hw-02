@@ -8,9 +8,6 @@ import ImageGallery from "./components/imagegallery/ImageGallery";
 import LoadMoreBtn from "./components/loadmorebtn/LoadMoreBtn";
 import Loader from "./components/loader/Loader";
 import ErrorMessage from "./components/errormessage/ErrorMessage";
-import LangSwitcher from "./components/langswitcher/LangSwitcher";
-import { IoMenuSharp } from "react-icons/io5";
-
 import ImageModal from "./components/imagemodal/ImageModal";
 import Modal from "react-modal";
 Modal.setAppElement("#root");
@@ -31,12 +28,6 @@ const App: React.FC = () => {
 
   const [modalIsOpen, setModalIsOpen] = useState<boolean>(false);
   const [modalImage, setModalImage] = useState<ImageDataType | null>(null);
-
-  const [langModalIsOpen, setLangModalIsOpen] = useState<boolean>(false);
-
-  const handleCloseLangModal = (): void => {
-    setLangModalIsOpen(false);
-  };
 
   const openModal = (imageData: ImageDataType): void => {
     setModalImage(imageData);
@@ -85,19 +76,7 @@ const App: React.FC = () => {
     <>
       <header>
         <SearchBar onSearch={handleSearch} />
-        <button
-          className="menu-btn"
-          onClick={(): void => {
-            setLangModalIsOpen(true);
-          }}
-        >
-          <IoMenuSharp className="menu-icon" />
-        </button>
       </header>
-
-      {langModalIsOpen && (
-        <LangSwitcher handleCloseLangModal={handleCloseLangModal} />
-      )}
 
       {galleryData.length > 0 && (
         <ImageGallery galleryArr={galleryData} openModal={openModal} />
@@ -117,7 +96,9 @@ const App: React.FC = () => {
         overlayClassName={`overlay ${modalIsOpen ? "overlayIsOpen" : ""}`}
         closeTimeoutMS={300}
       >
-        {modalIsOpen && <ImageModal modalImage={modalImage} />}
+        {modalIsOpen && modalImage !== null && (
+          <ImageModal modalImage={modalImage} />
+        )}
       </Modal>
     </>
   );

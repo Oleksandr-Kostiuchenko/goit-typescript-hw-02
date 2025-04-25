@@ -1,6 +1,19 @@
 //* Libraries
 import style from "./LangSwitcher.module.css";
 import { IoClose } from "react-icons/io5";
+import { NavLink } from "react-router-dom";
+import { IoHome } from "react-icons/io5";
+import { FaHeart } from "react-icons/fa";
+
+//* CLSX
+import clsx from "clsx";
+type ClsxProps = {
+  isActive: boolean;
+};
+
+const classContructor = ({ isActive }: ClsxProps) => {
+  return clsx(style.navLink, { [style.activeLink]: isActive });
+};
 
 //* Ctx & TS
 import { useLang } from "../../hook/useLang";
@@ -35,12 +48,26 @@ const LangSwitcher: React.FC<Props> = ({ handleCloseLangModal }) => {
             handleCloseLangModal();
           }}
         >
-          <IoClose />
+          <IoClose className={style.closeIcon} />
         </button>
 
-        <h2 className={style.title}>
-          {langCtx.lang === "en" ? "Select language: " : "Виберіть мову: "}
-        </h2>
+        <nav className={style.navWrapper}>
+          <ul className={style.navList}>
+            <li className={style.listItem}>
+              <NavLink className={classContructor} to="/">
+                <IoHome />
+                {langCtx.lang === "en" ? "Home" : "Головна"}
+              </NavLink>
+            </li>
+            <li className={style.listItem}>
+              <NavLink className={classContructor} to="/saved">
+                <FaHeart />
+                {langCtx.lang === "en" ? "Saved" : "Збережені"}
+              </NavLink>
+            </li>
+          </ul>
+        </nav>
+
         <div className={style.selectWrapper}>
           <select
             className={style.langSelector}

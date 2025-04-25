@@ -7,12 +7,13 @@ import { useLang } from "../../hook/useLang";
 import { FormEvent } from "react";
 
 //* TS
+import { LangContextType } from "../../context/lang";
 type Props = {
   onSearch: (topic: string) => void;
 };
 
 const SearchBar: React.FC<Props> = ({ onSearch }) => {
-  const langCtx = useLang();
+  const langCtx: LangContextType = useLang();
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>): void => {
     event.preventDefault();
